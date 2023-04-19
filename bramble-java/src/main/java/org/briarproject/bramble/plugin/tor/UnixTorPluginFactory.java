@@ -30,6 +30,7 @@ import javax.net.SocketFactory;
 
 import static java.util.logging.Level.INFO;
 import static org.briarproject.bramble.util.OsUtils.isLinux;
+import static org.briarproject.bramble.util.OsUtils.isMac;
 
 @Immutable
 @NotNullByDefault
@@ -60,15 +61,20 @@ public class UnixTorPluginFactory extends TorPluginFactory {
 	@Nullable
 	@Override
 	String getArchitectureForTorBinary() {
-		if (!isLinux()) return null;
+		if (!isLinux() && !isMac()) return null;
 		String arch = System.getProperty("os.arch");
 		if (LOG.isLoggable(INFO)) {
 			LOG.info("System's os.arch is " + arch);
 		}
-		//noinspection IfCanBeSwitch
-		if (arch.equals("amd64")) return "x86_64";
-		else if (arch.equals("aarch64")) return "aarch64";
-		else if (arch.equals("arm")) return "armhf";
+		if (isLinux()) {
+			//noinspection IfCanBeSwitch
+			if (arch.equals("amd64")) return "x86_64";
+			else if (arch.equals("aarch64")) return "aarch64";
+			else if (arch.equals("arm")) return "armhf";
+		} else if (isMac()) {
+			if (arch.equals("amd64")) return "x86_64";
+			else if (arch.equals("aarch64")) return "aarch64";
+		}
 		return null;
 	}
 

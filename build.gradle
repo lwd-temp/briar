@@ -5,6 +5,7 @@ allprojects {
 		mavenCentral()
 		google()
 		maven { url "https://jitpack.io" }
+		maven { url "https://mvntmp.mobanisto.de" }
 	}
 	afterEvaluate {
 		tasks.withType(Test) {
@@ -38,6 +39,7 @@ buildscript {
 		jmock_version = '2.12.0'
 		mockwebserver_version = '4.10.0'
 		onionwrapper_version = '0.0.2'
+		onionwrapper_version2 = '0.0.2-macos'
 	}
 	dependencies {
 		// upgrading this let's us run into https://github.com/gradle/gradle/issues/20330
